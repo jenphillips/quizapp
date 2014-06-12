@@ -1,0 +1,16 @@
+TODO
+
+Version 0.3
+- Speed up questionnaire loading time
+    - Dusty did some timing and determined that it is the time it takes to render
+        all the widgets, rather than json loading, that is costing us here. We may be
+        able to speed up this loop, or we may have to use a single question object
+        that we change labels on for each new question.
+
+Version 0.4
+- download questionnaires from the web
+- create new questionnaires and share them?
+- allow marking "permanent" answers on questions and listing them at the end
+    ie: A lot of questions I always mark as zero. I could have it set so that they don't
+    show up in the main questionnaire, but after all the others were answered, we
+    show a list of those questions so the user can choose to change them.

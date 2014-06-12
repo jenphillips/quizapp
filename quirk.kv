@@ -1,0 +1,103 @@
+#:kivy 1.8.0
+
+QuirkRoot:
+
+<QuirkRoot>:
+    HomeScreen:
+        name: 'home'
+    QuestionnaireScreen:
+        name: 'questionnaire'
+    ScoreScreen:
+        name: 'score'
+    ChartScreen:
+        name: 'chart'
+
+<HomeScreen@Screen>:
+    content: content
+    BoxLayout:
+        ScrollView:
+            do_scroll_x: False
+            GridLayout:
+                id: content
+                cols: 1
+                size_hint_y: None
+                height: sum(c.height for c in self.children)
+
+<QuestionnaireSelector@BoxLayout>:
+    filename: ""
+    title: ""
+    size_hint_y: None
+    height: "80dp"
+    Label:
+        text: root.title
+    ImageButton:
+        on_press: app.root.load_questionnaire(root.filename)
+        image_source: "images/pencil.png"
+    ImageButton:
+        on_press: app.root.view_chart(root.filename)
+        image_source: "images/chart_bar.png"
+
+<QuestionnaireScreen@Screen>:
+    question_manager: question_manager
+    ScreenManager:
+        id: question_manager
+
+<Question@Screen>:
+    name: ""
+    text: ""
+    group: ""
+    content: content
+    BoxLayout:
+        orientation: "vertical"
+        id: content
+        Label:
+            text: root.name
+            bold: True
+            font_size: "25dp"
+        Label:
+            text: root.text
+            text_size: self.size
+            halign: "center"
+            valign: "middle"
+
+<ScoreScreen@Screen>:
+    score_display: score_display
+    BoxLayout:
+        orientation: "vertical"
+        BoxLayout:
+            id: score_display
+            orientation: "vertical"
+        BoxLayout:
+            size_hint_y: None
+            height: "50dp"
+            ImageButton:
+                on_press: app.root.current = 'home'
+                image_source: "images/house.png"
+            ImageButton:
+                on_press: app.root.view_chart(app.root.active_questionnaire)
+                image_source: "images/chart_bar.png"
+
+
+<ChartScreen@Screen>:
+    time_series_chart: time_series_chart
+    AutoAxisTimeSeriesChart:
+        id: time_series_chart
+    ImageButton:
+        size_hint_y: None
+        height: "50dp"
+        top: root.top
+        right: root.right
+        on_press: app.root.current = 'home'
+        image_source: "images/house.png"
+
+<ImageButton@Button>:
+    image_source: None
+    background_color: 1, 1, 1, .5
+    width: self.height
+    size_hint_x: None
+    Image:
+        source: root.image_source
+        center: self.parent.center
+        width: "24dp"
+        height: "24dp"
+        allow_stretch: True
